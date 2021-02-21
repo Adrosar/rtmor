@@ -1,0 +1,11 @@
+# Dir:
+/build/*
+!/build/_
+
+# System temporary files:
+.DS_Store
+Desktop.ini
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
