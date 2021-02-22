@@ -5,11 +5,24 @@ _Real-time Modification of Requests_
 - [bitbucket.org/Adrosar/rtmor](https://bitbucket.org/Adrosar/rtmor)
 
 **RtMoR** is alternative to **Requestly**
-
 - [requestly.io](https://requestly.io) _(new website)_
 - [www.requestly.in](https://www.requestly.in) _(old website)_
 
-The project uses [github.com/elazarl/goproxy](https://github.com/elazarl/goproxy) as a proxy server.
+
+
+## Why do I need RtMoR?
+
+If you are working on an application in **React**, **Angular**, **VueJS**, you will definitely appreciate **RtMoR**. See the problem below that **RtMoR** is solving.
+
+### Issue (story):
+
+You need to debug your JavaScript application in production. Unfortunately, you cannot make a copy of such an environment and nor can you access JS scripts on the server.
+
+Thanks to **RtMoR**, you can redirect the selected resource request to the local server.
+
+![rtmor-scheme-307](docs/images/rtmor-scheme-307.png)
+
+So you can **safely work** in the **production** environment.
 
 
 
