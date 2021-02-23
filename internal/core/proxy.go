@@ -2,7 +2,6 @@ package core
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -60,17 +59,21 @@ func InitProxy(p *Proxy) {
 
 		var res *http.Response
 		switch rule.Mode {
+
 		case ShowURL:
 			p.Logger.Println(color.CyanString("URL -> " + url))
 			break
+
 		case BlockRuleModed:
 			res = NewRes404(req)
 			res.Header.Set("x-rtmor-mode", fmt.Sprint(BlockRuleModed))
 			return nil, res
+
 		case RedirectRuleModed:
 			res = NewRes307(req, rule.Location)
 			res.Header.Set("x-rtmor-mode", fmt.Sprint(RedirectRuleModed))
 			return nil, res
+
 		case ContentRuleMode:
 			if rule.Type == "text/javascript" {
 				res = NewRes20X(req, AddLogsToJS(rule.Body), rule.Type)
@@ -79,6 +82,17 @@ func InitProxy(p *Proxy) {
 			}
 
 			res.Header.Set("x-rtmor-mode", fmt.Sprint(ContentRuleMode))
+			return nil, res
+
+		case FileRuleMode:
+			text, _ := ReadTextFile(rule.Location)
+			if rule.Type == "text/javascript" {
+				res = NewRes20X(req, AddLogsToJS(text), rule.Type)
+			} else {
+				res = NewRes20X(req, text, rule.Type)
+			}
+
+			res.Header.Set("x-rtmor-mode", fmt.Sprint(FileRuleMode))
 			return nil, res
 		}
 
@@ -90,7 +104,7 @@ func InitProxy(p *Proxy) {
 func RunProxy(proxy *Proxy) error {
 	err := http.ListenAndServe(proxy.Addr, proxy.PHS)
 	if err != nil {
-		return errors.New(`[4r8urC] → ` + err.Error())
+		return ExtendError("[4r8urC]", err)
 	}
 
 	return nil

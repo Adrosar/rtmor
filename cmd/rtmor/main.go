@@ -30,7 +30,7 @@ func main() {
 	if toHelp {
 		fmt.Println("")
 		fmt.Println("Real-time Modification of Requests")
-		fmt.Println(" • version: 0.1.1 (2021-02-22-1425)")
+		fmt.Println(" • version: 0.2.0 (2021-02-23-2343)")
 		fmt.Println(" • author: Adrian Gargula")
 		fmt.Println(" • Go-compatible BSD license")
 		fmt.Println("")

@@ -17,7 +17,17 @@ rules:
     reg_exp: '(?m)\/jquery.*\.js' # Regular expression, Golang style. See https://golang.org/pkg/regexp/
     location: ""
     mode: 211 # See ./internal/core/config.go → ContentRuleMode
-    body: 'alert("Hello RtMoR")'
+    body: 'alert("[RtMoR] The script content has been changed!")'
+    type: "text/javascript"
+    active: true
+
+    # Visit the https://reactjs.org website and see the effect.
+  - name: "React"
+    host_name: "unpkg.com"
+    reg_exp: '(?m)\/babel\.min\.js$' # Regular expression, Golang style. See https://golang.org/pkg/regexp/
+    location: "assets/babel/6.26.0/babel.js" # The `/` separator works in Windows, Linux and MacOS.
+    mode: 213 # See ./internal/core/config.go → FileRuleMode
+    body: ""
     type: "text/javascript"
     active: true
 

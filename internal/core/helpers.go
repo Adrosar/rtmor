@@ -48,3 +48,18 @@ func InitOutForLog(logger *log.Logger, show bool) {
 		logger.SetOutput(ioutil.Discard)
 	}
 }
+
+// ReadTextFile ...
+func ReadTextFile(name string) (string, error) {
+	data, err := ioutil.ReadFile(name)
+	if err != nil {
+		return "", ExtendError("[HFx9Mq]", err)
+	}
+
+	return string(data), nil
+}
+
+// ExtendError ...
+func ExtendError(code string, err error) error {
+	return errors.New(code + ` → ` + err.Error())
+}
