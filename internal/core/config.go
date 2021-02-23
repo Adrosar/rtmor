@@ -1,7 +1,6 @@
 package core
 
 import (
-	"errors"
 	"io/ioutil"
 
 	"gopkg.in/yaml.v2"
@@ -15,7 +14,7 @@ const (
 	LinkRuleMode = 212 // ToDo: Complete!
 
 	// FileRuleMode ...
-	FileRuleMode = 213 // ToDo: Complete!
+	FileRuleMode = 213
 
 	// RedirectRuleModed ...
 	RedirectRuleModed = 307
@@ -51,12 +50,12 @@ func ReadConfig(pathToFile string) (*Config, error) {
 
 	data, err := ioutil.ReadFile(pathToFile)
 	if err != nil {
-		return nil, errors.New(`[sKIxye] → ` + err.Error())
+		return nil, ExtendError("[sKIxye]", err)
 	}
 
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return nil, errors.New(`[TrVfXB] → ` + err.Error())
+		return nil, ExtendError("[TrVfXB]", err)
 	}
 
 	return &config, nil
