@@ -35,12 +35,6 @@ func FindInTree(hostName string, text string, tree *Tree) *Rule {
 			continue
 		}
 
-		if rule.Mode <= 0 {
-			continue
-		} else if rule.Mode == ShowURL {
-			return &rule
-		}
-
 		if MatchTheRule(&rule, text) {
 			return &rule
 		}

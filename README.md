@@ -43,16 +43,20 @@ Run proxy server that is listening on all network interfaces:
 ./build/linux-amd64/rtmor -start -log -listen 0.0.0.0:8888
 ```
 
-Run with a configuration that includes an example rule:
+Run with a configuration containing sample rules:
 ```bash
 ./build/linux-amd64/rtmor -start -log -listen 0.0.0.0:8888 -cfg ./configs/sample.yaml
 ```
+
+### Configuration file
+
+The configuration file contains examples of using **RtMoR** → `./configs/sample.yaml`
 
 
 
 ## Examples (Windows, cmd)
 
-Run with a configuration that includes an example rule:
+Run with a configuration containing sample rules:
 ```cmd
 build\windows-amd64\rtmor.exe -start -log -listen 0.0.0.0:8888 -cfg configs\sample.yaml
 ```

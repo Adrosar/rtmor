@@ -7,32 +7,35 @@ import (
 )
 
 const (
-	// ContentRuleMode ...
-	ContentRuleMode = 211
+	// RuleModePASS ...
+	RuleModePASS = 0
 
-	// LinkRuleMode ...
-	LinkRuleMode = 212 // ToDo: Complete!
+	// RuleModeOK ...
+	RuleModeOK = 200
 
-	// FileRuleMode ...
-	FileRuleMode = 213
+	// RuleModeNoContent ...
+	RuleModeNoContent = 204
 
-	// RedirectRuleModed ...
-	RedirectRuleModed = 307
+	// RuleModeFile ...
+	RuleModeFile = 237
 
-	// BlockRuleModed ...
-	BlockRuleModed = 404
+	// RuleModeRedirect ...
+	RuleModeRedirect = 307
 
-	// ShowURL ...
-	ShowURL = 600
+	// RuleModeNotFound ...
+	RuleModeNotFound = 404
 )
 
 // Rule ...
 type Rule struct {
-	Name     string `yaml:"name"`
+	Name        string `yaml:"name"`
+	Mode        int    `yaml:"mode"`
+	ShowMatches bool   `yaml:"show_matches"`
+
 	HostName string `yaml:"host_name"`
 	RegExp   string `yaml:"reg_exp"`
+
 	Location string `yaml:"location"`
-	Mode     int    `yaml:"mode"`
 	Body     string `yaml:"body"`
 	Type     string `yaml:"type"`
 	Active   bool   `yaml:"active"`

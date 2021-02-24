@@ -1,9 +1,7 @@
 package core
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -57,43 +55,56 @@ func InitProxy(p *Proxy) {
 			return req, nil
 		}
 
+		if rule.ShowMatches {
+			p.Logger.Println(color.CyanString(`Rule: "` + rule.Name + `", URL -> ` + url))
+		}
+
 		var res *http.Response
+
 		switch rule.Mode {
 
-		case ShowURL:
-			p.Logger.Println(color.CyanString("URL -> " + url))
+		case RuleModeNotFound:
+			res = NewRes404(req)
 			break
 
-		case BlockRuleModed:
-			res = NewRes404(req)
-			res.Header.Set("x-rtmor-mode", fmt.Sprint(BlockRuleModed))
-			return nil, res
-
-		case RedirectRuleModed:
+		case RuleModeRedirect:
 			res = NewRes307(req, rule.Location)
-			res.Header.Set("x-rtmor-mode", fmt.Sprint(RedirectRuleModed))
-			return nil, res
+			break
 
-		case ContentRuleMode:
+		case RuleModeOK:
 			if rule.Type == "text/javascript" {
 				res = NewRes20X(req, AddLogsToJS(rule.Body), rule.Type)
 			} else {
 				res = NewRes20X(req, rule.Body, rule.Type)
 			}
+			break
 
-			res.Header.Set("x-rtmor-mode", fmt.Sprint(ContentRuleMode))
-			return nil, res
+		case RuleModeNoContent:
+			res = NewRes20X(req, "", rule.Type)
+			break
 
-		case FileRuleMode:
+		case RuleModeFile:
 			text, _ := ReadTextFile(rule.Location)
 			if rule.Type == "text/javascript" {
 				res = NewRes20X(req, AddLogsToJS(text), rule.Type)
 			} else {
 				res = NewRes20X(req, text, rule.Type)
 			}
+			break
+		}
 
-			res.Header.Set("x-rtmor-mode", fmt.Sprint(FileRuleMode))
-			return nil, res
+		if res != nil {
+			res.Header.Set("ETag", fmt.Sprint(UnixTime()))
+
+			res.Header.Set("Cache-Control", "no-cache, no-store, must-revalidate")
+			res.Header.Set("Pragma", "no-cache")
+			res.Header.Set("Expires", "0")
+
+			res.Header.Set("Via", "RtMoR")
+			res.Header.Set("X-Rtmor-Name", rule.Name)
+			res.Header.Set("X-Rtmor-Mode", fmt.Sprint(rule.Mode))
+
+			return req, res
 		}
 
 		return req, nil
@@ -112,31 +123,12 @@ func RunProxy(proxy *Proxy) error {
 
 // NewRes20X ...
 func NewRes20X(req *http.Request, body string, contentType string) *http.Response {
-	// https://stackoverflow.com/questions/33978216/create-http-response-instance-with-sample-body-string-in-golang
-	res := &http.Response{
-		Status:        "",
-		StatusCode:    0,
-		Proto:         "HTTP/1.1",
-		ProtoMajor:    1,
-		ProtoMinor:    1,
-		Body:          ioutil.NopCloser(bytes.NewBufferString(body)),
-		ContentLength: int64(len(body)),
-		Request:       req,
-		Header:        make(http.Header, 0),
-	}
-
-	if contentType == "" {
-		res.Header.Set("Content-Type", "text/plain")
-	} else {
-		res.Header.Set("Content-Type", contentType)
-	}
+	var res *http.Response
 
 	if body == "" {
-		res.StatusCode = 204
-		res.Status = "204 No content"
+		res = goproxy.NewResponse(req, "text/plain", 204, "")
 	} else {
-		res.StatusCode = 200
-		res.Status = "200 OK"
+		res = goproxy.NewResponse(req, contentType, 200, body)
 	}
 
 	return res
@@ -144,17 +136,12 @@ func NewRes20X(req *http.Request, body string, contentType string) *http.Respons
 
 // NewRes404 ...
 func NewRes404(req *http.Request) *http.Response {
-	res := NewRes20X(req, "", "")
-	res.StatusCode = 404
-	res.Status = "404 Not Found"
-	return res
+	return goproxy.NewResponse(req, "text/plain", 404, "")
 }
 
 // NewRes307 ...
 func NewRes307(req *http.Request, link string) *http.Response {
-	res := NewRes20X(req, "", "")
-	res.StatusCode = 307
-	res.Status = "307 Temporary Redirect"
+	res := goproxy.NewResponse(req, "text/plain", 307, "")
 	res.Header.Set("Location", link)
 	return res
 }
