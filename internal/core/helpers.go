@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"time"
 
 	"github.com/fatih/color"
 )
@@ -62,4 +63,10 @@ func ReadTextFile(name string) (string, error) {
 // ExtendError ...
 func ExtendError(code string, err error) error {
 	return errors.New(code + ` → ` + err.Error())
+}
+
+// UnixTime ...
+func UnixTime() int64 {
+	now := time.Now()
+	return now.Unix()
 }
