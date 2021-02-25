@@ -30,7 +30,7 @@ func main() {
 	if toHelp {
 		fmt.Println("")
 		fmt.Println("Real-time Modification of Requests")
-		fmt.Println(" • version: 0.3.0 (2021-02-24-2236)")
+		fmt.Println(" • version: 0.4.0 (2021-02-26-0049)")
 		fmt.Println(" • author: Adrian Gargula")
 		fmt.Println(" • Go-compatible BSD license")
 		fmt.Println("")
@@ -60,9 +60,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	proxy := core.NewProxy()
-	proxy.ShowLogs = opt.ShowLogs
-	proxy.Addr = opt.ProxyServerAddr
+	pc := core.NewProxyCore()
+	pc.ShowLogs = opt.ShowLogs
+	pc.Addr = opt.ProxyServerAddr
 
 	if opt.ConfigFile != "" {
 		conf, err1 := core.ReadConfig(opt.ConfigFile)
@@ -71,7 +71,7 @@ func main() {
 		}
 
 		for _, rule := range conf.Rules {
-			ok := core.AddToTree(rule, proxy.Tree)
+			ok := core.AddToTree(rule, pc.Tree)
 			if ok {
 				logger.Println(`Rule "` + rule.Name + `" has been loaded ` + color.GreenString(`:)`))
 			} else {
@@ -82,9 +82,9 @@ func main() {
 		logger.Println(color.YellowString("Configuration file not selected!"))
 	}
 
-	core.InitProxy(proxy)
+	pc.Init()
 	logger.Println("The proxy server is listening at address → " + opt.ProxyServerAddr)
-	err2 := core.RunProxy(proxy)
+	err2 := pc.Run()
 	if err2 != nil {
 		logger.Fatalln(color.RedString(fmt.Sprint("[WxC8Y7] →", err2)))
 	}
