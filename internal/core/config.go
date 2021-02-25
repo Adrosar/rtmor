@@ -24,6 +24,9 @@ const (
 
 	// RuleModeNotFound ...
 	RuleModeNotFound = 404
+
+	// RuleModeNoCache ...
+	RuleModeNoCache = 700
 )
 
 // Rule ...

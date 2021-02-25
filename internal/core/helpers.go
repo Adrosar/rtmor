@@ -1,15 +1,19 @@
 package core
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"runtime"
 	"time"
 
+	"github.com/elazarl/goproxy"
 	"github.com/fatih/color"
 )
 
@@ -32,9 +36,9 @@ func OpenURLinBrowser(url string) error {
 	return err
 }
 
-// AddLogsToJS adds "console.log()" with the "[RtMoR]" message to the beginning of the JavaScript code.
-func AddLogsToJS(jsCode string) string {
-	return fmt.Sprint(`if (typeof console != "undefined") { console.log("[RtMoR]") };`, "\n", jsCode)
+// AddLogToJS ...
+func AddLogToJS(jsCode string, ruleName string) string {
+	return fmt.Sprint(`if (typeof console != "undefined") { console.log("[RtMoR] Rule: `+ruleName+`") };`, "\n", jsCode)
 }
 
 // InitOutForLog ...
@@ -69,4 +73,51 @@ func ExtendError(code string, err error) error {
 func UnixTime() int64 {
 	now := time.Now()
 	return now.Unix()
+}
+
+// NewRes20X ...
+func NewRes20X(req *http.Request, body string, contentType string) *http.Response {
+	var res *http.Response
+
+	if body == "" {
+		res = goproxy.NewResponse(req, "text/plain", 204, "")
+	} else {
+		res = goproxy.NewResponse(req, contentType, 200, body)
+	}
+
+	return res
+}
+
+// NewRes404 ...
+func NewRes404(req *http.Request) *http.Response {
+	return goproxy.NewResponse(req, "text/plain", 404, "")
+}
+
+// NewRes307 ...
+func NewRes307(req *http.Request, link string) *http.Response {
+	res := goproxy.NewResponse(req, "text/plain", 307, "")
+	res.Header.Set("Location", link)
+	return res
+}
+
+// SetAntiCacheHeaders ...
+func SetAntiCacheHeaders(res *http.Response) {
+	res.Header.Set("ETag", fmt.Sprint(UnixTime()))
+	res.Header.Set("Cache-Control", "no-cache, no-store, must-revalidate")
+	res.Header.Set("Pragma", "no-cache")
+	res.Header.Set("Expires", "0")
+}
+
+// SetInformationHeaders ...
+func SetInformationHeaders(res *http.Response, rule *Rule) {
+	res.Header.Set("Via", "RtMoR")
+	res.Header.Set("X-Rtmor-Name", rule.Name)
+	res.Header.Set("X-Rtmor-Mode", fmt.Sprint(rule.Mode))
+}
+
+// ReadAsString ...
+func ReadAsString(reader io.Reader) string {
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(reader)
+	return `alert(123); ` + buf.String()
 }

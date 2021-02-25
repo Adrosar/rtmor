@@ -55,3 +55,14 @@ rules:
     type: ""
     active: true
     show_matches: true
+
+  # Visit the https://www.youtube.com website and see the effect.
+  - name: "YouTube"
+    host_name: "www.youtube.com"
+    reg_exp: '(?mi).+\.js$'
+    location: ""
+    mode: 700 # See ./internal/core/config.go → RuleModeNoCache
+    body: ""
+    type: ""
+    active: true
+    show_matches: true
