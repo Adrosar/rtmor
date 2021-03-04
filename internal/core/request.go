@@ -1,7 +1,6 @@
 package core
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/elazarl/goproxy"
@@ -9,17 +8,17 @@ import (
 )
 
 // NewRequestHandler ...
-func NewRequestHandler(tree *Tree, logger *log.Logger) *RequestHandler {
+func NewRequestHandler(tree *Tree, lm *LogMaster) *RequestHandler {
 	return &RequestHandler{
-		Tree:   tree,
-		Logger: logger,
+		Tree: tree,
+		LM:   lm,
 	}
 }
 
 // RequestHandler ...
 type RequestHandler struct {
-	Tree   *Tree
-	Logger *log.Logger
+	Tree *Tree
+	LM   *LogMaster
 }
 
 // Handle ...
@@ -37,7 +36,7 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 	}
 
 	if rule.ShowMatches {
-		reqh.Logger.Println(color.CyanString(`Rule: "` + rule.Name + `", URL -> ` + url))
+		reqh.LM.Print('M', color.CyanString(`Rule: "`+rule.Name+`", URL -> `+url), "\n")
 	}
 
 	var res *http.Response

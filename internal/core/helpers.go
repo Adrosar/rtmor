@@ -42,15 +42,20 @@ func AddLogToJS(jsCode string, ruleName string) string {
 }
 
 // InitOutForLog ...
-func InitOutForLog(logger *log.Logger, show bool) {
+func InitOutForLog(logger interface{}, show bool) {
+	lgr, ok := logger.(*log.Logger)
+	if ok == false {
+		return
+	}
+
 	if show {
 		if runtime.GOOS == "windows" {
-			logger.SetOutput(color.Output)
+			lgr.SetOutput(color.Output)
 		} else {
-			logger.SetOutput(os.Stdout)
+			lgr.SetOutput(os.Stdout)
 		}
 	} else {
-		logger.SetOutput(ioutil.Discard)
+		lgr.SetOutput(ioutil.Discard)
 	}
 }
 
