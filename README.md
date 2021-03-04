@@ -40,12 +40,12 @@ Show help:
 
 Run proxy server that is listening on all network interfaces:
 ```bash
-./build/linux-amd64/rtmor -start -log -listen 0.0.0.0:8888
+./build/linux-amd64/rtmor -start -listen 0.0.0.0:8888 -log BMW
 ```
 
 Run with a configuration containing sample rules:
 ```bash
-./build/linux-amd64/rtmor -start -log -listen 0.0.0.0:8888 -cfg ./configs/sample.yaml
+./build/linux-amd64/rtmor -start -listen 0.0.0.0:8888 -cfg ./configs/sample.yaml -log BMW
 ```
 
 ### Configuration file
@@ -58,7 +58,7 @@ The configuration file contains examples of using **RtMoR** → `./configs/sampl
 
 Run with a configuration containing sample rules:
 ```cmd
-build\windows-amd64\rtmor.exe -start -log -listen 0.0.0.0:8888 -cfg configs\sample.yaml
+build\windows-amd64\rtmor.exe -start -listen 0.0.0.0:8888 -cfg configs\sample.yaml -log BMW
 ```
 
 
@@ -84,6 +84,12 @@ The software uses repositories:
 - [github.com/elazarl/goproxy](https://github.com/elazarl/goproxy) _(Go-compatible BSD license)_
 - [github.com/go-yaml/yaml](https://github.com/go-yaml/yaml) _(Apache License 2.0)_
 - [github.com/fatih/color](https://github.com/fatih/color) _(MIT License)_
+
+
+
+## Early stage
+
+The software was created for personal use and is in the **early stages** of development, so **CLI** is subject to change.
 
 
 

@@ -1,7 +1,6 @@
 package core
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/elazarl/goproxy"
@@ -9,17 +8,17 @@ import (
 )
 
 // NewResponseHandler ...
-func NewResponseHandler(tree *Tree, logger *log.Logger) *ResponseHandler {
+func NewResponseHandler(tree *Tree, lm *LogMaster) *ResponseHandler {
 	return &ResponseHandler{
-		Tree:   tree,
-		Logger: logger,
+		Tree: tree,
+		LM:   lm,
 	}
 }
 
 // ResponseHandler ...
 type ResponseHandler struct {
-	Tree   *Tree
-	Logger *log.Logger
+	Tree *Tree
+	LM   *LogMaster
 }
 
 // Handle ...
@@ -33,7 +32,7 @@ func (resh ResponseHandler) Handle(res *http.Response, ctx *goproxy.ProxyCtx) *h
 			SetInformationHeaders(res, rule)
 
 			if rule.ShowMatches {
-				resh.Logger.Println(color.YellowString(`Anti-buffering headers have been added to the response for the "` + url + `" address.`))
+				resh.LM.Print('M', color.YellowString(`Anti-buffering headers have been added to the response for the "`+url+`" address.`), "\n")
 			}
 
 			return res

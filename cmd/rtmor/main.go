@@ -3,21 +3,42 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"rtmor/internal/core"
 
 	"github.com/fatih/color"
 )
 
+const ver = "0.5.0 (2021-03-04-1457)"
+
+const logDesc = `Shows the logs. Use:
+'-log B' → Basic logs.
+'-log M' → Rules matching logs.
+'-log W' → Warnings and Errors from https://github.com/elazarl/goproxy
+'-log V' → Verbose log from https://github.com/elazarl/goproxy
+           (implies the use of the 'W' flag)
+'-log BMV' → Show all logs.
+'-log BMW' → Most common use.`
+
+const cfgDesc = `Path to the configuration file (YAML)
+See example: https://github.com/Adrosar/rtmor/blob/0.5.0/configs/sample.yam`
+
+const listenDesc = `The address on which the proxy server should listen.
+To listen on all interfaces (network adapters), use '-listen 0.0.0.0:8888'
+`
+
 func main() {
 	var isStart bool
 	flag.BoolVar(&isStart, "start", false, "Start the proxy server")
 
-	opt := core.NewOptions()
-	flag.BoolVar(&opt.ShowLogs, "log", false, "Show logs")
-	flag.StringVar(&opt.ConfigFile, "cfg", "", "Path to the configuration file (YAML)")
-	flag.StringVar(&opt.ProxyServerAddr, "listen", "127.0.0.1:8888", "The address on which the proxy server should listen")
+	var logFlags string
+	flag.StringVar(&logFlags, "log", "", logDesc)
+
+	var configFileName string
+	flag.StringVar(&configFileName, "cfg", "", cfgDesc)
+
+	var proxyServerAddr string
+	flag.StringVar(&proxyServerAddr, "listen", "127.0.0.1:8888", listenDesc)
 
 	var toRepo bool
 	flag.BoolVar(&toRepo, "repo", false, "Open the repository website")
@@ -30,7 +51,7 @@ func main() {
 	if toHelp {
 		fmt.Println("")
 		fmt.Println("Real-time Modification of Requests")
-		fmt.Println(" • version: 0.4.0 (2021-02-26-0049)")
+		fmt.Println(" • version:", ver)
 		fmt.Println(" • author: Adrian Gargula")
 		fmt.Println(" • Go-compatible BSD license")
 		fmt.Println("")
@@ -43,13 +64,14 @@ func main() {
 		os.Exit(0)
 	}
 
-	logger := log.New(os.Stdout, "", log.Ltime|log.Ldate)
-	core.InitOutForLog(logger, opt.ShowLogs)
+	lm := core.NewLogMaster()
+	lm.Parse(logFlags)
 
 	if toRepo {
 		err3 := core.OpenURLinBrowser("https://github.com/Adrosar/rtmor")
 		if err3 != nil {
-			logger.Fatalln(color.RedString(fmt.Sprint("[cdEQa9] →", err3)))
+			lm.Print('B', color.RedString(fmt.Sprint("[cdEQa9] →", err3)), "\n")
+			os.Exit(1)
 		}
 
 		os.Exit(0)
@@ -60,32 +82,35 @@ func main() {
 		os.Exit(0)
 	}
 
-	pc := core.NewProxyCore()
-	pc.ShowLogs = opt.ShowLogs
-	pc.Addr = opt.ProxyServerAddr
+	lm.Print('B', color.HiCyanString("RtMoR "+ver), "\n")
 
-	if opt.ConfigFile != "" {
-		conf, err1 := core.ReadConfig(opt.ConfigFile)
+	pc := core.NewProxyCore(lm)
+	pc.Addr = proxyServerAddr
+
+	if configFileName != "" {
+		conf, err1 := core.ReadConfig(configFileName)
 		if err1 != nil {
-			logger.Fatalln(color.RedString(fmt.Sprint("[Uqd3CI] →", err1)))
+			lm.Print('B', color.RedString(fmt.Sprint("[Uqd3CI] →", err1)), "\n")
+			os.Exit(2)
 		}
 
 		for _, rule := range conf.Rules {
 			ok := core.AddToTree(rule, pc.Tree)
 			if ok {
-				logger.Println(`Rule "` + rule.Name + `" has been loaded ` + color.GreenString(`:)`))
+				lm.Print('B', `Rule "`+rule.Name+`" has been loaded `+color.GreenString(`:)`), "\n")
 			} else {
-				logger.Println(`"` + rule.Name + `" rule failed to load ` + color.RedString(`:(`))
+				lm.Print('B', `"`+rule.Name+`" rule failed to load `+color.RedString(`:(`), "\n")
 			}
 		}
 	} else {
-		logger.Println(color.YellowString("Configuration file not selected!"))
+		lm.Print('B', color.YellowString("Configuration file not selected!"), "\n")
 	}
 
 	pc.Init()
-	logger.Println("The proxy server is listening at address → " + opt.ProxyServerAddr)
+	lm.Print('B', "The proxy server is listening at address → "+proxyServerAddr, "\n")
 	err2 := pc.Run()
 	if err2 != nil {
-		logger.Fatalln(color.RedString(fmt.Sprint("[WxC8Y7] →", err2)))
+		lm.Print('B', color.RedString(fmt.Sprint("[WxC8Y7] →", err2)), "\n")
+		os.Exit(3)
 	}
 }
