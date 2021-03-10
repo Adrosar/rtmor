@@ -5,6 +5,7 @@ _Real-time Modification of Requests_
 - [bitbucket.org/Adrosar/rtmor](https://bitbucket.org/Adrosar/rtmor)
 
 **RtMoR** is alternative to **Requestly**
+
 - [requestly.io](https://requestly.io) _(new website)_
 - [www.requestly.in](https://www.requestly.in) _(old website)_
 
@@ -32,8 +33,11 @@ Remember to build a project!
 ```bash
 ./scripts/dist.sh
 ```
+_( ↑ Script `dist.sh` uses the **GO** compiler - recommended version: **1.15.6** )_
+
 
 Show help:
+
 ```bash
 ./build/linux-amd64/rtmor -help
 ```
@@ -56,8 +60,14 @@ The configuration file contains examples of using **RtMoR** → `./configs/sampl
 
 ## Examples (Windows, cmd)
 
+Remember to build a project!
+```
+scripts\dist.cmd
+```
+_( ↑ Script `dist.cmd` uses the **GO** compiler - recommended version: **1.15.6** )_
+
 Run with a configuration containing sample rules:
-```cmd
+```
 build\windows-amd64\rtmor.exe -start -listen 0.0.0.0:8888 -cfg configs\sample.yaml -log BMW
 ```
 
@@ -73,6 +83,36 @@ For HTTPS redirection to work, install the certificate on the device.
 ## Runnable binaries
 
 [Download](https://drive.google.com/drive/folders/1K4XvLZYB10pQ1iTYsRh0FlLP_PzwhNp4?usp=sharing) a copy of the repository and **binaries** ready to run.
+
+
+
+## NPM
+
+### Install from source (Linux, bash):
+
+Build package for [NPM](https://www.npmjs.com):
+
+```bash
+./scripts/dist.sh && npm pack
+```
+
+Install **rtmor** package from file: 
+```bash
+npm install -g ./rtmor-0.6.0.tgz
+```
+
+### Install from server:
+
+```bash
+npm install -g rtmor
+```
+_( ➥ [npmjs.com/package/rtmor](https://www.npmjs.com/package/rtmor) )_
+
+**RtMoR** installed with [NPM](https://www.npmjs.com) includes binary files compiled for systems:
+
+- Windows 10 (64-bit & 32-bit)
+- Linux (64-bit & 32-bit)
+- MacOS (64-bit, intel)
 
 
 
