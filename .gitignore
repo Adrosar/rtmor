@@ -1,6 +1,9 @@
-# Dir:
+# Directories:
 /build/*
 !/build/_
+
+# Files:
+/*.tgz
 
 # System temporary files:
 .DS_Store
