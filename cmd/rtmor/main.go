@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-const ver = "0.6.0 (2021-03-10-0122)"
+const ver = "0.6.1 (2021-04-13-1010)"
 
 const logDesc = `Shows the logs. Use:
 '-log B' → Basic logs.
@@ -21,7 +21,7 @@ const logDesc = `Shows the logs. Use:
 '-log BMW' → Most common use.`
 
 const cfgDesc = `Path to the configuration file (YAML)
-See example: https://github.com/Adrosar/rtmor/blob/0.5.0/configs/sample.yam`
+See example: https://github.com/Adrosar/rtmor/blob/0.6.1/configs/sample.yam`
 
 const listenDesc = `The address on which the proxy server should listen.
 To listen on all interfaces (network adapters), use '-listen 0.0.0.0:8888'
@@ -110,7 +110,7 @@ func main() {
 	lm.Print('B', "The proxy server is listening at address → "+proxyServerAddr, "\n")
 	err2 := pc.Run()
 	if err2 != nil {
-		lm.Print('B', color.RedString(fmt.Sprint("[WxC8Y7] →", err2)), "\n")
+		lm.Print('B', color.RedString(fmt.Sprint("[WxC8Y7] → ", err2)), "\n")
 		os.Exit(3)
 	}
 }

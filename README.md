@@ -76,7 +76,16 @@ build\windows-amd64\rtmor.exe -start -listen 0.0.0.0:8888 -cfg configs\sample.ya
 ## HTTPS and Certificate
 
 For HTTPS redirection to work, install the certificate on the device.
-**CA Root:** `./vendor/github.com/elazarl/goproxy/ca.pem`
+
+### CA Root
+- `./assets/ca-root/ca.crt`
+- `./assets/ca-root/ca.pem`
+
+The certificate comes from [elazarl/goproxy](https://github.com/elazarl/goproxy/blob/master/ca.pem)
+
+> How do install a **root certificate** in Linux _(Ubuntu, Linux Mint)_
+> https://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate
+> ( [screenshot](docs/images/ubuntu-install-ca.png) )
 
 
 
@@ -98,7 +107,7 @@ Build package for [NPM](https://www.npmjs.com):
 
 Install **rtmor** package from file: 
 ```bash
-npm install -g ./rtmor-0.6.0.tgz
+npm install -g ./rtmor-0.6.1.tgz
 ```
 
 ### Install from server:

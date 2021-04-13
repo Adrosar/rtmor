@@ -23,20 +23,30 @@ type ResponseHandler struct {
 
 // Handle ...
 func (resh ResponseHandler) Handle(res *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	url := res.Request.URL.String()
-	hostName := res.Request.URL.Hostname()
-	rule := FindInTree(hostName, url, resh.Tree)
-	if rule != nil {
-		if rule.Mode == RuleModeNoCache {
-			SetAntiCacheHeaders(res)
-			SetInformationHeaders(res, rule)
+	if res == nil {
+		resh.LM.Print('B', color.RedString("[q4sI33]"))
+		return nil
+	}
 
-			if rule.ShowMatches {
-				resh.LM.Print('M', color.YellowString(`Anti-buffering headers have been added to the response for the "`+url+`" address.`), "\n")
+	if res.Request != nil && res.Request.URL != nil {
+		url := res.Request.URL.String()
+		hostName := res.Request.URL.Hostname()
+		rule := FindInTree(hostName, url, resh.Tree)
+
+		if rule != nil {
+			if rule.Mode == RuleModeNoCache {
+				SetAntiCacheHeaders(res)
+				SetInformationHeaders(res, rule)
+
+				if rule.ShowMatches {
+					resh.LM.Print('M', color.YellowString(`Anti-buffering headers have been added to the response for the "`+url+`" address.`), "\n")
+				}
+
+				return res
 			}
-
-			return res
 		}
+	} else {
+		resh.LM.Print('B', color.YellowString("[fAqg6N]"))
 	}
 
 	return res
