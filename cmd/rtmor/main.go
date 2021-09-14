@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-const ver = "0.6.1 (2021-04-13-1010)"
+const ver = "0.7.0 (2021-09-15-0038)"
 
 const logDesc = `Shows the logs. Use:
 '-log B' → Basic logs.
@@ -77,7 +77,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	if isStart == false {
+	if !isStart {
 		fmt.Println("Run the `rtmor -help` to see help")
 		os.Exit(0)
 	}
