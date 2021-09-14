@@ -2,6 +2,7 @@ package core
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/elazarl/goproxy"
 )
@@ -38,6 +39,12 @@ func (pc *ProxyCore) Init() {
 		pc.PHS.Verbose = false
 		InitOutForLog(pc.PHS.Logger, false)
 	}
+
+	pc.PHS.Tr.MaxConnsPerHost = 5
+	pc.PHS.Tr.MaxIdleConns = 1000
+	pc.PHS.Tr.MaxIdleConnsPerHost = 5
+	pc.PHS.Tr.IdleConnTimeout = time.Second * 120
+	pc.PHS.Tr.ResponseHeaderTimeout = time.Second * 30
 
 	pc.PHS.OnResponse().Do(NewResponseHandler(pc.Tree, pc.LM))
 	pc.PHS.OnRequest().Do(NewRequestHandler(pc.Tree, pc.LM))
