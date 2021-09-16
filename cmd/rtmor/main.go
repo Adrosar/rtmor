@@ -21,7 +21,7 @@ const logDesc = `Shows the logs. Use:
 '-log BMW' → Most common use.`
 
 const cfgDesc = `Path to the configuration file (YAML)
-See example: https://github.com/Adrosar/rtmor/blob/0.6.1/configs/sample.yam`
+See example: https://github.com/Adrosar/rtmor/blob/0.7.1/configs/sample.yam`
 
 const listenDesc = `The address on which the proxy server should listen.
 To listen on all interfaces (network adapters), use '-listen 0.0.0.0:8888'

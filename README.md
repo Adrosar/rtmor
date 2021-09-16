@@ -107,7 +107,7 @@ Build package for [NPM](https://www.npmjs.com):
 
 Install **rtmor** package from file: 
 ```bash
-npm install -g ./rtmor-0.6.1.tgz
+npm install -g ./rtmor-0.7.1.tgz
 ```
 
 ### Install from server:
