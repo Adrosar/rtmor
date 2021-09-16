@@ -24,7 +24,7 @@ type ResponseHandler struct {
 // Handle ...
 func (resh ResponseHandler) Handle(res *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 	if res == nil {
-		resh.LM.Print('B', color.RedString("[q4sI33]"))
+		resh.LM.Print('B', color.RedString("[q4sI33]"), color.YellowString("Response is `nil`"))
 		return nil
 	}
 
