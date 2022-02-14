@@ -1,9 +1,15 @@
 module rtmor
 
-go 1.15
+go 1.17
 
 require (
-	github.com/elazarl/goproxy v0.0.0-20210801061803-8e322dfb79c4
-	github.com/fatih/color v1.12.0
+	github.com/elazarl/goproxy v0.0.0-20220115173737-adb46da277ac
+	github.com/fatih/color v1.13.0
 	gopkg.in/yaml.v2 v2.4.0
+)
+
+require (
+	github.com/mattn/go-colorable v0.1.9 // indirect
+	github.com/mattn/go-isatty v0.0.14 // indirect
+	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 )
