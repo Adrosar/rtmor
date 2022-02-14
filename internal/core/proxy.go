@@ -40,15 +40,16 @@ func (pc *ProxyCore) Init() {
 		InitOutForLog(pc.PHS.Logger, false)
 	}
 
-	pc.PHS.Tr.MaxConnsPerHost = 5
+	pc.PHS.Tr.MaxResponseHeaderBytes = 1024 * 1024 // 1MB
+	pc.PHS.Tr.MaxConnsPerHost = 0
 	pc.PHS.Tr.MaxIdleConns = 1000
 	pc.PHS.Tr.MaxIdleConnsPerHost = 5
-	pc.PHS.Tr.IdleConnTimeout = time.Second * 120
-	pc.PHS.Tr.ResponseHeaderTimeout = time.Second * 30
+	pc.PHS.Tr.IdleConnTimeout = time.Minute * 5
+	pc.PHS.Tr.ResponseHeaderTimeout = time.Second * 60
 
-	pc.PHS.OnResponse().Do(NewResponseHandler(pc.Tree, pc.LM))
-	pc.PHS.OnRequest().Do(NewRequestHandler(pc.Tree, pc.LM))
 	pc.PHS.OnRequest().HandleConnect(NewConnectionHandler(pc.Tree))
+	pc.PHS.OnRequest().Do(NewRequestHandler(pc.Tree, pc.LM))
+	pc.PHS.OnResponse().Do(NewResponseHandler(pc.Tree, pc.LM))
 }
 
 // Run ...

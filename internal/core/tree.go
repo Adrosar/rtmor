@@ -31,7 +31,7 @@ func FindInTree(hostName string, text string, tree *Tree) *Rule {
 	}
 
 	for _, rule := range list {
-		if rule.Active == false {
+		if !rule.Active {
 			continue
 		}
 
@@ -49,10 +49,5 @@ func IsHostNameExist(hostName string, tree *Tree) bool {
 		return false
 	}
 
-	list := tree.Data[hostName]
-	if list == nil {
-		return false
-	}
-
-	return true
+	return tree.Data[hostName] != nil
 }
