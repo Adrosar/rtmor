@@ -44,7 +44,7 @@ func AddLogToJS(jsCode string, ruleName string) string {
 // InitOutForLog ...
 func InitOutForLog(logger interface{}, show bool) {
 	lgr, ok := logger.(*log.Logger)
-	if ok == false {
+	if !ok {
 		return
 	}
 

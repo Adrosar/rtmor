@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-const ver = "0.7.2 (2021-09-16-2320)"
+const ver = "0.7.3 (2022-02-14-2236)"
 
 const logDesc = `Shows the logs. Use:
 '-log B' → Basic logs.
@@ -21,7 +21,7 @@ const logDesc = `Shows the logs. Use:
 '-log BMW' → Most common use.`
 
 const cfgDesc = `Path to the configuration file (YAML)
-See example: https://github.com/Adrosar/rtmor/blob/0.7.2/configs/sample.yam`
+See example: https://github.com/Adrosar/rtmor/blob/0.7.3/configs/sample.yam`
 
 const listenDesc = `The address on which the proxy server should listen.
 To listen on all interfaces (network adapters), use '-listen 0.0.0.0:8888'

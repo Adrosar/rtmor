@@ -45,11 +45,9 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 
 	case RuleModeNotFound:
 		res = NewRes404(req)
-		break
 
 	case RuleModeRedirect:
 		res = NewRes307(req, rule.Location)
-		break
 
 	case RuleModeOK:
 		if rule.Type == "text/javascript" {
@@ -57,11 +55,9 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 		} else {
 			res = NewRes20X(req, rule.Body, rule.Type)
 		}
-		break
 
 	case RuleModeNoContent:
 		res = NewRes20X(req, "", rule.Type)
-		break
 
 	case RuleModeFile:
 		text, _ := ReadTextFile(rule.Location)
@@ -70,7 +66,7 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 		} else {
 			res = NewRes20X(req, text, rule.Type)
 		}
-		break
+
 	}
 
 	if res != nil {
