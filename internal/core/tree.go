@@ -35,7 +35,7 @@ func (tree *Tree) FindURL(hostName string, text string) *Rule {
 			continue
 		}
 
-		if MatchTheRule(&rule, text) {
+		if rule.MatchTheRule(text) {
 			return &rule
 		}
 	}
