@@ -12,8 +12,8 @@ func NewTree() *Tree {
 	}
 }
 
-// AddToTree added "rule" to "tree".
-func AddToTree(rule Rule, tree *Tree) (ok bool) {
+// AddRule added "rule" to "tree".
+func (tree *Tree) AddRule(rule Rule) (ok bool) {
 	l := len(rule.HostName)
 	if l == 0 {
 		return false
@@ -23,8 +23,8 @@ func AddToTree(rule Rule, tree *Tree) (ok bool) {
 	return true
 }
 
-// FindInTree ...
-func FindInTree(hostName string, text string, tree *Tree) *Rule {
+// FindURL ...
+func (tree *Tree) FindURL(hostName string, text string) *Rule {
 	list := tree.Data[hostName]
 	if list == nil {
 		return nil
@@ -44,7 +44,7 @@ func FindInTree(hostName string, text string, tree *Tree) *Rule {
 }
 
 // IsHostNameExist ...
-func IsHostNameExist(hostName string, tree *Tree) bool {
+func (tree *Tree) IsHostNameExist(hostName string) bool {
 	if hostName == "" {
 		return false
 	}

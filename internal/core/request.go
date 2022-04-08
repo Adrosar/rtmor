@@ -24,7 +24,7 @@ type RequestHandler struct {
 // Handle ...
 func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
 	url := req.URL.String()
-	rule := FindInTree(req.URL.Hostname(), url, reqh.Tree)
+	rule := reqh.Tree.FindURL(req.URL.Hostname(), url)
 
 	if rule == nil {
 		return req, nil

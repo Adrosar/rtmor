@@ -22,7 +22,7 @@ type ConnectionHandler struct {
 func (conh ConnectionHandler) HandleConnect(host string, ctx *goproxy.ProxyCtx) (*goproxy.ConnectAction, string) {
 	hostnameAndPort := strings.Split(host, ":")
 	if len(hostnameAndPort) > 0 {
-		if IsHostNameExist(hostnameAndPort[0], conh.Tree) {
+		if conh.Tree.IsHostNameExist(hostnameAndPort[0]) {
 			return goproxy.MitmConnect, host
 		}
 	}

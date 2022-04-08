@@ -95,7 +95,7 @@ func main() {
 		}
 
 		for _, rule := range conf.Rules {
-			ok := core.AddToTree(rule, pc.Tree)
+			ok := pc.Tree.AddRule(rule)
 			if ok {
 				lm.Print('B', `Rule "`+rule.Name+`" has been loaded `+color.GreenString(`:)`), "\n")
 			} else {
