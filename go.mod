@@ -3,7 +3,7 @@ module rtmor
 go 1.17
 
 require (
-	github.com/elazarl/goproxy v0.0.0-20220115173737-adb46da277ac
+	github.com/elazarl/goproxy v0.0.0-20220403042543-a53172b9392e
 	github.com/fatih/color v1.13.0
 	gopkg.in/yaml.v2 v2.4.0
 )
