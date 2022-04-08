@@ -27,7 +27,7 @@ rules:
   - name: "React"
     host_name: "unpkg.com"
     reg_exp: '(?m)\/babel\.min\.js$'
-    location: "assets/babel/6.26.0/babel.js" # The `/` separator works in Windows, Linux and MacOS.
+    location: "assets/babel/fake.js" # The `/` separator works in Windows, Linux and MacOS.
     mode: 237 # See ./internal/core/config.go → RuleModeFile
     body: ""
     type: "text/javascript"
