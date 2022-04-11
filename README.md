@@ -96,6 +96,9 @@ Download **binaries** ready to run.
 - [Mirror ONE](https://github.com/Adrosar/rtmor/releases)
 - [Mirror TWO](https://drive.google.com/drive/folders/1K4XvLZYB10pQ1iTYsRh0FlLP_PzwhNp4?usp=sharing)
 
+Extra download [RtMoR 0.7.4 + Firefox Portable](https://drive.google.com/file/d/1TOh9BoATK0rA81w9bt_uwCi8XhiM-a5y/view?usp=sharing)
+Password: `2RstVAKVAub5`
+
 
 
 ## License
