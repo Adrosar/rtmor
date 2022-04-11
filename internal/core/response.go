@@ -31,7 +31,7 @@ func (resh ResponseHandler) Handle(res *http.Response, ctx *goproxy.ProxyCtx) *h
 	if res.Request != nil && res.Request.URL != nil {
 		url := res.Request.URL.String()
 		hostName := res.Request.URL.Hostname()
-		rule := FindInTree(hostName, url, resh.Tree)
+		rule := resh.Tree.FindURL(hostName, url)
 
 		if rule != nil {
 			if rule.Mode == RuleModeNoCache {

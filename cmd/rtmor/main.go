@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-const ver = "0.7.3 (2022-02-14-2236)"
+const ver = "0.7.4 (2022-04-11-2226)"
 
 const logDesc = `Shows the logs. Use:
 '-log B' → Basic logs.
@@ -95,7 +95,7 @@ func main() {
 		}
 
 		for _, rule := range conf.Rules {
-			ok := core.AddToTree(rule, pc.Tree)
+			ok := pc.Tree.AddRule(rule)
 			if ok {
 				lm.Print('B', `Rule "`+rule.Name+`" has been loaded `+color.GreenString(`:)`), "\n")
 			} else {

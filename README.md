@@ -91,37 +91,10 @@ The certificate comes from [elazarl/goproxy](https://github.com/elazarl/goproxy/
 
 ## Runnable binaries
 
-[Download](https://drive.google.com/drive/folders/1K4XvLZYB10pQ1iTYsRh0FlLP_PzwhNp4?usp=sharing) a copy of the repository and **binaries** ready to run.
+Download **binaries** ready to run.
 
-
-
-## NPM
-
-### Install from source (Linux, bash):
-
-Build package for [NPM](https://www.npmjs.com):
-
-```bash
-./scripts/dist.sh && npm pack
-```
-
-Install **rtmor** package from file: 
-```bash
-npm install -g ./rtmor-0.7.3.tgz
-```
-
-### Install from server:
-
-```bash
-npm install -g rtmor
-```
-_( ➥ [npmjs.com/package/rtmor](https://www.npmjs.com/package/rtmor) )_
-
-**RtMoR** installed with [NPM](https://www.npmjs.com) includes binary files compiled for systems:
-
-- Windows 10 (64-bit & 32-bit)
-- Linux (64-bit & 32-bit)
-- MacOS (64-bit, intel)
+- [Mirror ONE](https://github.com/Adrosar/rtmor/releases)
+- [Mirror TWO](https://drive.google.com/drive/folders/1K4XvLZYB10pQ1iTYsRh0FlLP_PzwhNp4?usp=sharing)
 
 
 
