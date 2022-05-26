@@ -124,5 +124,41 @@ func SetInformationHeaders(res *http.Response, rule *Rule) {
 func ReadAsString(reader io.Reader) string {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(reader)
-	return `alert(123); ` + buf.String()
+	return buf.String()
+}
+
+// SplitURL splits the URL into a protocol and the rest
+//
+// EXAMPLEs:
+//   [1] "http://127.0.0.1:8080" => "http:", "//127.0.0.1:8080"
+//   [2] "https://google.com" => "https:", "//google.com"
+//   [3] "file:configs/sample.yaml" => "file:", "configs/sample.yaml"
+//
+func SplitURL(location string) (protocol string, rest string) {
+	prefix := location[0:5]
+	if prefix == "file:" || prefix == "http:" {
+		return prefix, location[5:]
+	} else {
+		prefix := location[0:6]
+		if prefix == "https:" {
+			return prefix, location[6:]
+		}
+	}
+
+	return "", location
+}
+
+// ReadTextFromURL ...
+func ReadTextFromURL(url string) (string, error) {
+	res, err := http.Get(url)
+	if err != nil {
+		return "", ExtendError("[gwfZLQ]", err)
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return "", ExtendError("[hD9qQn]", err)
+	}
+
+	return string(body), nil
 }

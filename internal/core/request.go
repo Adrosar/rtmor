@@ -60,13 +60,25 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 		res = NewRes20X(req, "", rule.Type)
 
 	case RuleModeFile:
-		text, _ := ReadTextFile(rule.Location)
-		if rule.Type == "text/javascript" {
-			res = NewRes20X(req, AddLogToJS(text, rule.Name), rule.Type)
-		} else {
-			res = NewRes20X(req, text, rule.Type)
+		var text string
+		var err error
+
+		protocol, path := SplitURL(rule.Location)
+		if protocol == "file:" {
+			text, err = ReadTextFile(path)
+		} else if protocol == "http:" || protocol == "https:" {
+			text, err = ReadTextFromURL(rule.Location)
 		}
 
+		if err != nil || len(text) == 0 {
+			res = NewRes404(req)
+		} else {
+			if rule.Type == "text/javascript" {
+				res = NewRes20X(req, AddLogToJS(text, rule.Name), rule.Type)
+			} else {
+				res = NewRes20X(req, text, rule.Type)
+			}
+		}
 	}
 
 	if res != nil {
