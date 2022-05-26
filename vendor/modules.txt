@@ -1,4 +1,4 @@
-# github.com/elazarl/goproxy v0.0.0-20220403042543-a53172b9392e
+# github.com/elazarl/goproxy v0.0.0-20220417044921-416226498f94
 ## explicit
 github.com/elazarl/goproxy
 # github.com/fatih/color v1.13.0
