@@ -33,7 +33,7 @@ Remember to build a project!
 ```bash
 ./scripts/dist.sh
 ```
-_( ↑ Script `dist.sh` uses the **GO** compiler - recommended version: **1.15.6** )_
+_( ↑ Script `dist.sh` uses the **GO** compiler - recommended version: **1.17** )_
 
 
 Show help:
