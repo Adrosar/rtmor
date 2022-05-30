@@ -2,7 +2,6 @@
 
 _Real-time Modification of Requests_
 - [github.com/Adrosar/rtmor](https://github.com/Adrosar/rtmor)
-- [bitbucket.org/Adrosar/rtmor](https://bitbucket.org/Adrosar/rtmor)
 
 **RtMoR** is alternative to **Requestly**
 
@@ -33,7 +32,7 @@ Remember to build a project!
 ```bash
 ./scripts/dist.sh
 ```
-_( ↑ Script `dist.sh` uses the **GO** compiler - recommended version: **1.17** )_
+_( ↑ Script `dist.sh` uses the **GO** compiler - recommended version: **1.17**/**1.18** )_
 
 
 Show help:
@@ -64,7 +63,7 @@ Remember to build a project!
 ```
 scripts\dist.cmd
 ```
-_( ↑ Script `dist.cmd` uses the **GO** compiler - recommended version: **1.15.6** )_
+_( ↑ Script `dist.cmd` uses the **GO** compiler - recommended version: **1.17**/**1.18** )_
 
 Run with a configuration containing sample rules:
 ```
