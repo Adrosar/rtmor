@@ -2,6 +2,7 @@ package core
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/elazarl/goproxy"
 	"github.com/fatih/color"
@@ -82,7 +83,14 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 	}
 
 	if res != nil {
-		SetAntiCacheHeaders(res)
+		if rule.PreventCache {
+			SetAntiCacheHeaders(res)
+		}
+
+		if rule.CORS {
+			SetCORS(res, strings.TrimSpace(req.Header.Get("Origin")))
+		}
+
 		SetInformationHeaders(res, rule)
 		return req, res
 	}

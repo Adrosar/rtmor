@@ -113,6 +113,19 @@ func SetAntiCacheHeaders(res *http.Response) {
 	res.Header.Set("Expires", "0")
 }
 
+// SetCORS ...
+func SetCORS(res *http.Response, origin string) {
+	if len(origin) > 0 {
+		res.Header.Set("Access-Control-Allow-Origin", origin)
+		res.Header.Set("Access-Control-Allow-Credentials", "true")
+	} else {
+		res.Header.Set("Access-Control-Allow-Origin", "*")
+	}
+
+	res.Header.Set("Access-Control-Allow-Methods", "HEAD, OPTIONS, GET, POST")
+	res.Header.Set("Access-Control-Allow-Headers", "Content-Type")
+}
+
 // SetInformationHeaders ...
 func SetInformationHeaders(res *http.Response, rule *Rule) {
 	res.Header.Set("Via", "RtMoR")
