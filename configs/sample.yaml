@@ -5,10 +5,12 @@ rules:
   - name: "DEV"
     host_name: "regex101.com"
     reg_exp: "(?mi).*" # Regular expression, Golang style. See https://golang.org/pkg/regexp/
-    location: ""
+    location: "" # Not used in this mode.
     mode: 0 # See ./internal/core/config.go → RuleModePASS
-    body: ""
-    type: ""
+    body: "" # Not used in this mode.
+    type: "" # Not used in this mode.
+    prevent_cache: false
+    cors: false
     active: true # Set to `false` to disable the rule.
     show_matches: true # The `true` value shows the match in the logs (terminal)
 
@@ -16,10 +18,12 @@ rules:
   - name: "jQuery"
     host_name: "code.jquery.com"
     reg_exp: '(?m)\/jquery.*\.js'
-    location: ""
+    location: "" # Not used in this mode.
     mode: 200 # See ./internal/core/config.go → RuleModeOK
     body: 'alert("[RtMoR] The script content has been changed!")'
     type: "text/javascript"
+    prevent_cache: true
+    cors: false
     active: true
     show_matches: true
 
@@ -29,8 +33,10 @@ rules:
     reg_exp: '(?m)\/babel\.min\.js$'
     location: "file:assets/babel/fake.js" # The `/` separator works in Windows, Linux and MacOS.
     mode: 237 # See ./internal/core/config.go → RuleModeFile
-    body: ""
+    body: "" # Not used in this mode.
     type: "text/javascript"
+    prevent_cache: true
+    cors: false
     active: true
     show_matches: true
 
@@ -38,10 +44,12 @@ rules:
   - name: "Wiki"
     host_name: "en.wikipedia.org"
     reg_exp: '(?m)enwiki\.png$'
-    location: ""
+    location: "" # Not used in this mode.
     mode: 404 # See ./internal/core/config.go → RuleModeNotFound
-    body: ""
-    type: ""
+    body: "" # Not used in this mode.
+    type: "" # Not used in this mode.
+    prevent_cache: false
+    cors: false
     active: true
     show_matches: true
 
@@ -51,8 +59,10 @@ rules:
     reg_exp: '(?m)^https?\:\/\/www\.google\.com(\:443)?/?$'
     location: "https://duckduckgo.com" # If `mode` is `307` then `location` must contain the URL.
     mode: 307 # See ./internal/core/config.go → RuleModeRedirect
-    body: ""
-    type: ""
+    body: "" # Not used in this mode.
+    type: "" # Not used in this mode.
+    prevent_cache: true
+    cors: true
     active: true
     show_matches: true
 
@@ -60,9 +70,11 @@ rules:
   - name: "YouTube"
     host_name: "www.youtube.com"
     reg_exp: '(?mi).+\.js$'
-    location: ""
+    location: "" # Not used in this mode.
     mode: 700 # See ./internal/core/config.go → RuleModeNoCache
-    body: ""
-    type: ""
+    body: "" # Not used in this mode.
+    type: "" # Not used in this mode.
+    prevent_cache: true # Not used in this mode.
+    cors: true # Not used in this mode.
     active: true
     show_matches: true
