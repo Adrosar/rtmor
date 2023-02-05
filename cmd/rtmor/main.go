@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-const ver = "0.9.0 (2022-05-30-2240)"
+const ver = "0.9.1 (2023-02-02-0228)"
 
 const logDesc = `Shows the logs. Use:
 '-log B' → Basic logs.
