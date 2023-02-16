@@ -2,6 +2,7 @@ package core
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/elazarl/goproxy"
@@ -24,8 +25,7 @@ type RequestHandler struct {
 
 // Handle ...
 func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
-	url := req.URL.String()
-	rule := reqh.Tree.FindURL(req.URL.Hostname(), url)
+	rule := reqh.Tree.FindURL(req.URL.Hostname(), req.URL.String())
 
 	if rule == nil {
 		return req, nil
@@ -37,7 +37,7 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 	}
 
 	if rule.ShowMatches {
-		reqh.LM.Print('M', color.CyanString(`Rule: "`+rule.Name+`", URL -> `+url), "\n")
+		reqh.LM.Print('M', color.CyanString(`Rule: "`+rule.Name+`", URL -> `+req.URL.String()), "\n")
 	}
 
 	var res *http.Response
@@ -59,6 +59,20 @@ func (reqh RequestHandler) Handle(req *http.Request, ctx *goproxy.ProxyCtx) (*ht
 
 	case RuleModeNoContent:
 		res = NewRes20X(req, "", rule.Type)
+
+	case RuleModeUrl:
+		// The second part of the code for this rule is in file "response.go"
+		ctx.UserData = rule
+
+		location, err := url.Parse(rule.Location)
+		if err != nil {
+			return nil, NewRes404(req)
+		}
+
+		req.URL = location
+		req.Host = location.Host
+
+		return req, nil
 
 	case RuleModeFile:
 		var text string

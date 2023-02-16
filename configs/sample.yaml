@@ -31,12 +31,25 @@ rules:
   - name: "React"
     host_name: "unpkg.com"
     reg_exp: '(?m)\/babel\.min\.js$'
-    location: "file:assets/babel/fake.js" # The `/` separator works in Windows, Linux and MacOS.
+    location: "file:assets/fake.js" # The `/` separator works in Windows, Linux and MacOS.
     mode: 237 # See ./internal/core/config.go → RuleModeFile
     body: "" # Not used in this mode.
     type: "text/javascript"
     prevent_cache: true
-    cors: false
+    cors: true
+    active: true
+    show_matches: true
+
+    # Visit the https://angularjs.org website and see the effect.
+  - name: "Angular"
+    host_name: "angularjs.org"
+    reg_exp: '(?m)\/prettify\.min\.js$'
+    location: "https://raw.githubusercontent.com/Adrosar/rtmor/develop/assets/fake.js" # The `/` separator works in Windows, Linux and MacOS.
+    mode: 239 # See ./internal/core/config.go → RuleModeUrl
+    body: "" # Not used in this mode.
+    type: "text/javascript"
+    prevent_cache: true
+    cors: true
     active: true
     show_matches: true
 

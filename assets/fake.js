@@ -1,0 +1,1 @@
+(console.error || console.log)("!!! Fake JS !!!");
