@@ -23,30 +23,65 @@ type ResponseHandler struct {
 
 // Handle ...
 func (resh ResponseHandler) Handle(res *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+
 	if res == nil {
 		resh.LM.Print('B', color.RedString("[q4sI33]"), color.YellowString("Response is `nil`"))
 		return nil
 	}
 
-	if res.Request != nil && res.Request.URL != nil {
-		url := res.Request.URL.String()
-		hostName := res.Request.URL.Hostname()
-		rule := resh.Tree.FindURL(hostName, url)
+	if res.Request == nil {
+		resh.LM.Print('B', color.RedString("[Wm79he]"), color.YellowString("Request is `nil`"))
+		return nil
+	}
 
-		if rule != nil {
-			if rule.Mode == RuleModeNoCache {
-				SetAntiCacheHeaders(res)
-				SetInformationHeaders(res, rule)
+	if res.Request == nil {
+		resh.LM.Print('B', color.RedString("[u2q5cv]"), color.YellowString("URL is `nil`"))
+		return nil
+	}
 
-				if rule.ShowMatches {
-					resh.LM.Print('M', color.YellowString(`Anti-buffering headers have been added to the response for the "`+url+`" address.`), "\n")
-				}
+	var reqUrl string
+	var reqHostName string
+	var rule *Rule
 
-				return res
-			}
-		}
+	if ctx.UserData == nil {
+		reqUrl = res.Request.URL.String()
+		reqHostName = res.Request.URL.Hostname()
+		rule = resh.Tree.FindURL(reqHostName, reqUrl)
 	} else {
-		resh.LM.Print('B', color.YellowString("[fAqg6N]"))
+		rule = ctx.UserData.(*Rule)
+	}
+
+	if rule != nil {
+		if rule.Mode == RuleModeUrl {
+			// The first part of the code for this rule is in file "request.go"
+
+			if rule.PreventCache {
+				SetAntiCacheHeaders(res)
+			}
+
+			if rule.CORS {
+				SetCORS(res, "")
+			}
+
+			if len(rule.Type) > 0 {
+				res.Header.Set("Content-Type", rule.Type)
+			}
+
+			SetInformationHeaders(res, rule)
+
+			return res
+		}
+
+		if rule.Mode == RuleModeNoCache {
+			SetAntiCacheHeaders(res)
+			SetInformationHeaders(res, rule)
+
+			if rule.ShowMatches {
+				resh.LM.Print('M', color.YellowString(`Anti-buffering headers have been added to the response for the "`+reqUrl+`" address.`), "\n")
+			}
+
+			return res
+		}
 	}
 
 	return res

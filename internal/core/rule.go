@@ -21,6 +21,14 @@ const (
 	// Uses the "Rule.Type" field for setting the MIME type.
 	RuleModeFile Mode = 237
 
+	// The "RuleModeUrl" rule is similar to "RuleModeFile",
+	// but it only applies to resources that originate from a URL.
+	// The way it works is also different, which allows for passing
+	// of original cookies and request headers.
+	// Uses the "Rule.Location" field as the source.
+	// Optionally use "Rule.Type" to change the MIME type.
+	RuleModeUrl Mode = 239
+
 	// RuleModeRedirect forces a redirection.
 	// Uses the "Rule.Location" field as a redirection target.
 	RuleModeRedirect Mode = 307
